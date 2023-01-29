@@ -707,14 +707,153 @@ console.log(new Array()) // []
 
 // console.log(array.find(love)) :)
 
+// _________________________________________ 28.01.23_______________________________
+const getScore = item => item.scores
+const getNamee = item => item.name
 
+const getScorez = (array) => {
+    const result = []
+    for (let i = 0; i < array.length; i++) {
+        result[i] = getScore(array[i])
+    }
+    return result
+}
 
+console.log(getScorez(students))
 
+const getNames = (array) => {
+    const result = []
+    for (let i = 0; i < array.length; i++) {
+        result[i] = getNamee(array[i])
+    }
+    return result
+}
 
+console.log(getNames(students))
 
+function getNewArray(array, func) {
+    const result = []
+    for (let i = 0; i < array.length; i++) {
+        result[i] = func(array[i])
+    }
+    return result
+}
 
+console.log(getNewArray(students, getNamee))
+console.log(students.map(getNamee))
 
+// метод это функция которая является свойством объекта, map является свойством всех массивов
 
+const addProp = item => ({...item, isStudent: true})
 
+const itPush = (array, el) => {
+    array[array.length] = el
+    return array.length
+}
 
+const itFilter = (array, func) => {
+    const result = []
+    for (let i = 0; i < array.length; i++) {
+        if (func(array[i]) === true) {
+            itPush(array, array[i])
+        }
+    }
+    return result
+}
 
+const itIncludes = (array, value) => {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === value) {
+            return true
+        }
+    }
+    return false
+}
+
+const itUnShift = (array, item) => {
+
+    for (let i = array.length-1; i >= 0; i--) {
+        array[i + 1] = array[i]
+    }
+    array[0] = item
+    return array.length
+}
+console.log(students)
+console.log(itUnShift(students,  {
+    name: 'John',
+    age: 19,
+    isMarried: false,
+    scores: 100,
+    isStudent: false,
+}))
+
+const itShift = (array) => {
+    const removedItem = array[0]
+    for (let i = 0; i < array.length; i++) {
+        array[i] = array[i + 1]
+    }
+    array.length = array.length-1
+    return removedItem
+}
+const nums = [1,2,3,4,5]
+itShift(nums)
+console.log(itShift(nums))
+
+/*
+    Array.prototype.map
+    prototype потому что это объект который является свойством глобального конструктора Array
+    в котором хранятся методы массивов
+
+    console.dir(Array)
+*/
+// ________________________________________________создаем новый метод массива _________________________________________
+function getLength() {
+    return this.length
+}
+
+Array.prototype.hey = getLength
+
+const someArray = [1,2,3]
+
+console.log(someArray.hey()) // 0
+
+/* метод hey появится у глобального объекта Array в свойстве prototype и поэтому будет доступно у всех массивов*/
+// ________________________________________________создаем новый метод массива _________________________________________
+
+Array.prototype.heyArrow = () => {
+    console.log(this) // Window{window: Window, self: Window, document: document, name: '', location: Location,…}
+}
+
+console.log(nums.heyArrow())
+/*
+В тот момент когда мы создали стрелочную функцию она определила что будет для нее this (глобальный объект window)
+и больше это никогда не меняется
+
+А если мы возьмем function declaration и посмотрим что у нее будет thisом тот массив от которого мы вызываем функцию
+
+this принимает ту сущность которую в него передают как параметр функции
+
+this - это ссылка или контекст вызова на тот объект который использует эту функцию
+*/
+
+Array.prototype.getNamey = function() {
+    for (let i = 0; i < this.length; i++) {
+        console.log(this[i].name)
+    }
+}
+
+students.getNamey()
+
+Array.prototype.getAllValues = function (key) {
+    for (let i = 0; i < this.length; i++) {
+        console.log(this[i][key])
+    }
+}
+
+students.getAllValues('age') // 19 34 32
+
+class Student {
+
+}
+
+const ivan = new Student('Иван')
