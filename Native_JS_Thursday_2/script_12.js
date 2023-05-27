@@ -134,6 +134,9 @@ class Car {
     get Brand_trueGET() {
         return `${this.#brand} asdfasdf`
     }
+    static concatCars(car_1, car_2) { // есть только у самого класса а не его экземпляров
+
+    }
 }
 
 const car_1 = new Car('bmw', 200)
@@ -149,3 +152,6 @@ car_1.Brand_trueSET = 'vw' //     set Brand_trueSET('vw') {
 // = - значит set если ничего get
 
 console.log(car_1.Brand_trueGET) // VW asdfasdf
+
+// статические методы это методы которые принадлежат самому классу а не его экземпляру
+// Promise.all это статический метод класса promise он не доступен у экзмепляров
