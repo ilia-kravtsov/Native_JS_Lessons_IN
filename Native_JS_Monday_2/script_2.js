@@ -857,3 +857,178 @@ class Student {
 }
 
 const ivan = new Student('Иван')
+
+/*
+new Version
+
+
+let input = [1, 4, 1, 2, 11, 2, 3, 1]
+
+function some(input){
+    let preResult = 0
+    for (let i = 0; i < input.length; i++) {
+        if (input[i] === 1) {
+            preResult++
+        }
+    }
+    let result = 0
+    for (let i = 0; i < input.length; i++) {
+        if (input[i] === preResult) {
+            result++
+        }
+    }
+    return result
+}
+
+console.log(some(input));
+
+const getMappedArray = (array, mapFunc) => {
+    let result = []
+    for (let i = 0; i < input.length; i++) {
+        result[i] = mapFunc(input[i])
+    }
+    return result
+}
+
+console.log(getMappedArray(input, el => ({...el, phone: '2'})));
+
+const getFilteredArray = (array, filterFunc) => {
+    let result = []
+    for (let i = 0; i < input.length; i++) {
+        if (filterFunc(input[i])) {
+            result.push(input[i])
+        }
+    }
+    return result
+}
+
+console.log(getFilteredArray(input, el => el.age > 40));
+
+const findElement = (array, findFunc) => {
+    for (let i = 0; i < input.length; i++) {
+        if (findFunc(input[i])) {
+            return input[i]
+        }
+    }
+    return undefined
+}
+
+console.log(getFilteredArray(input, el => el === 4));
+
+const itPush = (array, newItem) => {
+    array[array.length] = newItem // добавляем на позицию последнего элемента в массиве array.length новое значение
+    // array.length = 3 console.log(input) [1,4,1]
+    return array.length
+}
+
+console.log(itPush(input, 5));
+console.log(input)
+
+const itPop = (array) => {
+    const lastItem = array[array.length - 1]
+    array.length = array.length - 1 // удаляем последний элемент за счет сокращения длины массива
+    return lastItem
+}
+
+console.log(itPop(input))
+
+let input_2 = [1, 2, 3, 4, 5]
+
+const reverse = (array) => {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+        result[i] = array[array.length - (i+1)]
+    }
+    return result
+}
+
+console.log(reverse(input_2)) // [5,4,3,2,1]
+
+let input_3 = [1, 2, 3, 4, 5]
+
+const reverse_2 = (array) => {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+        result[array.length - 1 - i] = array[i]
+    }
+    return result
+}
+
+console.log(reverse(input_3)) // [5,4,3,2,1]
+
+let input_4 = [1, 2, 3, 4, 5]
+
+const reverse_3 = (array) => {
+    for (let i = 0; i < Math.floor(array.length/2); i++) { // Math.floor(array.length/2) округляем средний элемент до большего значения чтобы не делать лишнюю итарецию с элементом который меняется местами сам с собой
+        const store = array[array.length - 1 - i]
+        array[array.length - 1 - i] = array[i]
+        array[i] = store
+    }
+}
+reverse_3(input_4)
+console.log(input_4) // [5,4,3,2,1]
+
+let input_5 = [1, 2, 3, 4, 5]
+
+const slice = (array, startIndex = 0, endIndex = array.length) => {
+    const result = []
+    for (let i = startIndex; i < endIndex; i++) { // идем от старт индекса до енд индекса
+        result[i-startIndex] = array[i]
+    }
+    return result
+}
+
+console.log(slice(input_5))
+
+let input_6 = [1, 2, 3, 4, 5]
+
+// const itIncludes = (array, el, startIndex = 0) => {
+//     // if (startIndex < 0) {
+//     //     startIndex = array.length + startIndex
+//     // }
+//     const start = startIndex < 0 ? array.length + startIndex : startIndex
+//     for (let i = start; i < array.length; i++) {
+//         if (array[i] === el) {
+//             return true
+//         }
+//     }
+//     return false
+// }
+//
+// console.log(itIncludes(input_6, 5,-2))
+// console.log(input.__proto__ === Array.prototype)
+
+// Делаем метод itIncludes для этого удаляем array из параметров и указываем в теле функции this
+// которое в данном контексте будет означать обращение к массиву от которого будет вызван метод
+
+// в этом случае дирректива function обязательно чтобы не терялся контекст this
+// стрелочные функции не понимают что такое this они не работают с контекстом вызова
+// у стрелочной функции this будет являться глобальным объектом window в стогом режиме будет undefined
+// за полезную практику можно взять проверку значения this console.log(this) в начале дабы убедиться в правильной интерпретации планируемого значения
+// стрелочная функция переводит стрелы с this на window
+function itIncludes (el, startIndex = 0) {
+    const start = startIndex < 0 ? this.length + startIndex : startIndex // this.length проверяем длину массива который вызывает этот метод
+    for (let i = start; i < this.length; i++) {
+        if (this[i] === el) {
+            return true
+        }
+    }
+    return false
+}
+
+console.log(itIncludes(input_6, 5,-2))
+console.log(input.__proto__ === Array.prototype)
+
+// это позволит вызывать метода у других массивов
+Array.prototype.itIncludes = itIncludes
+// теперь у всех массивов ниже в коде будет работать новый метод itIncludes
+
+// одновременно с созданием массива array получаем телефон для связи с родителем в виде Array
+// телефон записывается в свойство __proto__ именно там содержится ссылка на Array
+const array = new Array(1,2,3,4,5) // способ создания массива с помощью ключевого слова new и класса Array
+console.log(array) // [1,2,3,4,5]
+
+console.log(array.itIncludes(4, -2)) // true
+
+
+ */
