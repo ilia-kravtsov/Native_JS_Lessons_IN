@@ -850,15 +850,88 @@ Array.prototype.itReduce = itReduce
 
 console.log([1,2,3,4].itReduce((acc, el) => acc + el, 0 )) // 10
 
+/*
+new Version
 
+const todolists = {
+    [todos[1].id] : [ - вычисляемое свойство объекта
+        {id: 1, title: 'Whiskey'},
+    ]
+}
 
+Map это объект в котором ключами могут быть необязательно строки
 
+любой объект это реализация концепции ассоциативного масиива в языке JavaScript
 
+_______________________________________reduce
 
+сокращает массив до единственного значения
+ */
 
+const nums_1 = [1,2,3,4,5]
 
+// let sum = 0
+// for (let i = 0; i < nums.length; i++) {
+//     sum += nums[i]
+// }
 
+const sum = nums_1.reduce((acc, element) => acc + element, 0) // если не указать 0 то
+// в качестве первого параметра acc мы получим первый элемент массива
 
+// отбираем только четные значения из массива с помощью метода reduce альтернатива filter
+console.log(nums_1.reduce((acc, element) => {
+    if (element % 2 === 0) {
+        acc.push(element)
+    }
+    return acc
+},[]))
+
+// альтернатива map
+console.log(nums_1.reduce((acc, element) => {
+    acc.push(String(element))
+    return acc
+},[]))
+
+const nums_2 = [1,2,3,4,5,3,5,4,4]
+
+// формируем объект в котором ключ будет означать число из массива а значение количество повторов в массиве
+// преобразование массива в объект
+
+const numsObj = {
+    1: 1,
+    2: 1,
+    3: 2,
+    4: 3,
+    5: 2,
+}
+console.log(nums_2.reduce((acc, element) => {
+    // Object.keys(acc) - возвращает массив строк, поэтому когда ищем в нем число необходимо прибавить String(element)
+    if (Object.keys(acc).includes(String(element))) {
+        acc[element] = acc[element] + 1
+    } else {
+        acc[element] = 1
+    }
+    return acc
+},{})) // почитать про Object.keys hasOwnProperty
+
+// делаем из массива объект
+console.log(nums_2.reduce((result, element) => {
+    result[element.id] = element
+    // delete result[element.id].id удаление свойства по ключу из каждого свойства
+    return result // на следующей итерации мы используем значение из предыдущей
+},{}))
+
+/*
+Object.keys() это встроенный метод глобального объекта object
+он принимает в себя объект и возвращает массив ключей из переданного объекта
+
+console.log(Object.keys(obj)) // ['id', 'title']
+ */
+
+const obj = {
+    id: 1,
+    title: 'some'
+}
 
 
 
