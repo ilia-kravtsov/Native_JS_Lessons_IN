@@ -244,3 +244,7 @@ axios.get()
 // .minus(1)
 // .multiply(2)
 // console.log(a.result)
+
+
+
+
